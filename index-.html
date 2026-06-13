@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MegaMatrix — eCommerce Growth Agency, Mumbai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#04040A;
+  --s1:#0A0A12;--s2:#0F0F1A;--s3:#14141F;--s4:#1A1A28;
+  --faint:rgba(255,255,255,0.07);
+  --glass:rgba(255,255,255,0.035);
+  --glass2:rgba(255,255,255,0.065);
+  --gold:#E8A838;--gold2:#F5C842;--gold3:#FFE08A;
+  --orange:#FF6524;--orange2:#FF8C42;
+  --green:#22D07A;
+  --text:#F0EDE6;--text2:#8A877E;--text3:#4A4840;
+  --cream2:#C8B98A;
+  --r:6px;--r8:8px;--r12:12px;--r16:16px;--rmax:999px;
+  --g:max(20px,5vw);
+  --nav:76px;
+  --font:'Cabinet Grotesk',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--text);font-family:var(--font);font-size:16px;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(232,168,56,0.22);color:#fff}
+img{display:block;max-width:100%}
+
+/* CURSOR */
+.cur{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:transform 0.1s}
+.cur2{position:fixed;width:36px;height:36px;border:1px solid rgba(232,168,56,0.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all 0.15s ease-out}
+
+/* GRAIN */
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9997;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  background-size:300px;opacity:0.45}
+
+/* AMBIENT BLOBS (from file 2) */
+.amb{position:fixed;border-radius:50%;pointer-events:none;filter:blur(100px);z-index:0}
+.amb.a{width:1000px;height:1000px;background:radial-gradient(circle,rgba(255,101,36,0.12),transparent 65%);top:-350px;right:-250px;animation:fa 14s ease-in-out infinite}
+.amb.b{width:700px;height:700px;background:radial-gradient(circle,rgba(232,168,56,0.11),transparent 65%);bottom:-250px;left:-150px;animation:fb 18s ease-in-out infinite}
+.amb.c{width:500px;height:500px;background:radial-gradient(circle,rgba(255,101,36,0.07),transparent 65%);top:50%;left:35%;animation:fc 11s ease-in-out infinite}
+@keyframes fa{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-50px,70px) scale(1.1)}}
+@keyframes fb{0%,100%{transform:translate(0,0)}50%{transform:translate(70px,-50px)}}
+@keyframes fc{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,50px)}}
+
+/* GRADIENT TEXT */
+.gt{background:linear-gradient(120deg,var(--gold),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:var(--nav);
+  display:flex;align-items:center;justify-content:space-between;padding:0 var(--g);
+  transition:all 0.4s;border-bottom:1px solid transparent}
+nav.s{background:rgba(4,4,10,0.88);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);border-bottom-color:rgba(232,168,56,0.12)}
+.logo{font-size:1.45rem;font-weight:900;color:var(--text);text-decoration:none;letter-spacing:-0.04em;display:flex;align-items:center;gap:9px}
+.logo-dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--orange));flex-shrink:0;animation:pp 2.5s ease-in-out infinite;box-shadow:0 0 12px rgba(232,168,56,0.6)}
+@keyframes pp{0%,100%{box-shadow:0 0 6px rgba(232,168,56,0.4),0 0 0 0 rgba(232,168,56,0.4)}60%{box-shadow:0 0 18px rgba(232,168,56,0.7),0 0 0 10px rgba(232,168,56,0)}}
+.nl{display:flex;gap:2.2rem;list-style:none}
+.nl a{color:var(--text2);text-decoration:none;font-size:0.82rem;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;transition:color 0.2s;position:relative}
+.nl a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1.5px;background:linear-gradient(90deg,var(--gold),var(--orange));transition:width 0.3s;border-radius:4px}
+.nl a:hover{color:var(--text)}
+.nl a:hover::after{width:100%}
+.nr{display:flex;align-items:center;gap:1.2rem}
+.nav-ph{color:var(--text2);font-size:0.8rem;font-weight:500;text-decoration:none;transition:color 0.2s;letter-spacing:0.02em}
+.nav-ph:hover{color:var(--text)}
+.btn-nav{background:linear-gradient(135deg,var(--gold),var(--orange));color:#070707;padding:0.6rem 1.5rem;border-radius:var(--rmax);text-decoration:none;font-size:0.78rem;font-weight:800;letter-spacing:0.03em;transition:all 0.3s;box-shadow:0 4px 22px rgba(232,168,56,0.3)}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(232,168,56,0.5)}
+.ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.ham span{display:block;width:24px;height:1.5px;background:var(--text);transition:all 0.3s;transform-origin:center}
+.ham.o span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.ham.o span:nth-child(2){opacity:0}
+.ham.o span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mmenu{display:none;position:fixed;inset:0;top:var(--nav);background:rgba(4,4,10,0.97);backdrop-filter:blur(28px);z-index:490;flex-direction:column;align-items:center;justify-content:center;gap:2.2rem}
+.mmenu.o{display:flex}
+.mmenu a{font-size:2rem;font-weight:800;color:var(--text2);text-decoration:none;transition:color 0.2s;letter-spacing:-0.02em}
+.mmenu a:hover{color:var(--gold)}
+
+/* SHARED */
+.sec{padding:clamp(5rem,10vw,9rem) var(--g);position:relative;z-index:1}
+.slabel{display:flex;align-items:center;gap:10px;font-size:0.63rem;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.4rem}
+.slabel::before{content:'';width:20px;height:1px;background:var(--gold)}
+.sh{font-size:clamp(2rem,5vw,3.8rem);font-weight:900;line-height:1;letter-spacing:-0.035em;color:var(--text);margin-bottom:1.2rem}
+.sdesc{font-size:0.98rem;color:var(--text2);max-width:540px;line-height:1.8}
+.btn-p{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--gold),var(--orange));color:#070707;padding:0.95rem 2.2rem;border-radius:var(--rmax);text-decoration:none;font-size:0.9rem;font-weight:800;letter-spacing:0.01em;transition:all 0.3s;box-shadow:0 6px 28px rgba(232,168,56,0.28);position:relative;overflow:hidden}
+.btn-p::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.18),transparent);opacity:0;transition:opacity 0.3s}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(232,168,56,0.42)}
+.btn-p:hover::before{opacity:1}
+.btn-s{display:inline-flex;align-items:center;gap:10px;color:var(--text2);padding:0.95rem 2.2rem;border-radius:var(--rmax);text-decoration:none;font-size:0.9rem;font-weight:600;transition:all 0.3s;border:1px solid rgba(255,255,255,0.08)}
+.btn-s:hover{color:var(--text);border-color:rgba(232,168,56,0.3);background:rgba(232,168,56,0.04)}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--faint),transparent);margin:0 var(--g)}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(24px);transition:opacity 0.75s ease,transform 0.75s ease}
+.rv.v{opacity:1;transform:translateY(0)}
+.d1{transition-delay:0.1s}.d2{transition-delay:0.2s}.d3{transition-delay:0.3s}.d4{transition-delay:0.4s}.d5{transition-delay:0.5s}
+
+/* HERO */
+#home{min-height:100svh;display:grid;place-items:start;padding:calc(var(--nav) + 6rem) var(--g) 5rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(232,168,56,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(232,168,56,0.04) 1px,transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,black,transparent)}
+.hero-glow{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(232,168,56,0.1) 0%,rgba(255,101,36,0.06) 40%,transparent 70%);top:-300px;left:50%;transform:translateX(-50%);animation:hg 12s ease-in-out infinite}
+@keyframes hg{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.08)}}
+.hero-inner{position:relative;z-index:1;max-width:1200px;width:100%}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(232,168,56,0.35);background:rgba(232,168,56,0.09);border-radius:var(--rmax);padding:0.45rem 1.3rem;font-size:0.68rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;box-shadow:0 0 24px rgba(232,168,56,0.1)}
+.hero-eyebrow .live-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pp 2.5s ease-in-out infinite}
+.htitle{font-size:clamp(3.8rem,10vw,9rem);font-weight:900;line-height:0.93;letter-spacing:-0.045em;color:var(--text);margin-bottom:2.5rem}
+.htitle em{font-style:normal;background:linear-gradient(120deg,var(--gold),var(--orange),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200%;animation:shimmer 4s linear infinite}
+@keyframes shimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+.htitle .ghost{color:transparent;-webkit-text-stroke:1px rgba(240,237,230,0.14)}
+.hero-sub{font-size:1.1rem;color:var(--text2);max-width:480px;margin-bottom:3rem;line-height:1.8}
+.hero-sub strong{color:var(--cream2)}
+.hbtns{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:4rem}
+.pbadges{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.plat-label{font-size:0.63rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(138,135,126,0.6)}
+.plat-pill{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:var(--r);padding:0.3rem 0.8rem;font-size:0.7rem;font-weight:600;color:var(--text2);letter-spacing:0.04em;transition:all 0.2s}
+.plat-pill:hover{border-color:rgba(232,168,56,0.35);color:var(--gold);background:rgba(232,168,56,0.06)}
+
+/* STATS STRIP */
+.stats-strip{background:var(--s1);border-top:1px solid var(--faint);border-bottom:1px solid var(--faint);position:relative;z-index:1}
+.stats-inner{display:grid;grid-template-columns:repeat(4,1fr)}
+.stat{padding:2.2rem var(--g);border-right:1px solid var(--faint);display:flex;flex-direction:column;gap:6px;transition:background 0.3s;position:relative;overflow:hidden}
+.stat:last-child{border-right:none}
+.stat::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--orange));transform:scaleX(0);transform-origin:left;transition:transform 0.45s ease}
+.stat:hover{background:rgba(232,168,56,0.03)}
+.stat:hover::after{transform:scaleX(1)}
+.stat-num{font-size:2.8rem;font-weight:900;line-height:1;letter-spacing:-0.045em;background:linear-gradient(135deg,var(--gold),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-lbl{font-size:0.75rem;color:var(--text2);font-weight:500;letter-spacing:0.04em}
+
+/* TICKER */
+.ticker{overflow:hidden;padding:1rem 0;background:rgba(232,168,56,0.04);border-top:1px solid rgba(232,168,56,0.12);border-bottom:1px solid rgba(232,168,56,0.12);position:relative;z-index:1}
+.ticker::before,.ticker::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none}
+.ticker::before{left:0;background:linear-gradient(90deg,var(--black),transparent)}
+.ticker::after{right:0;background:linear-gradient(-90deg,var(--black),transparent)}
+.ticker-track{display:flex;white-space:nowrap;width:max-content;animation:tick 32s linear infinite}
+.ticker-item{display:inline-flex;align-items:center;gap:1.5rem;padding:0 2rem;font-size:0.7rem;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:var(--text)}
+.ticker-sep{color:var(--gold)}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* BRANDS */
+#brands{background:var(--s1)}
+.brands-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3.5rem;gap:2rem;flex-wrap:wrap}
+.brands-grid{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--faint);border-radius:var(--r8);overflow:hidden}
+.brand-cell{background:var(--s1);padding:2rem 1rem;display:flex;flex-direction:column;align-items:center;gap:8px;border-right:1px solid var(--faint);border-bottom:1px solid var(--faint);transition:background 0.3s;text-align:center;min-height:120px;justify-content:center}
+.brand-cell:nth-child(5n){border-right:none}
+.brand-cell:nth-child(n+6){border-bottom:none}
+.brand-cell:hover{background:var(--s3)}
+.brand-ico{font-size:1.6rem;margin-bottom:2px}
+.brand-name{font-size:0.88rem;font-weight:800;color:var(--text)}
+.brand-cat{font-size:0.6rem;color:var(--text3);font-weight:600;letter-spacing:0.06em;text-transform:uppercase}
+.brand-status{font-size:0.58rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.18rem 0.55rem;border-radius:var(--rmax);margin-top:4px}
+.brand-status.active{background:rgba(34,208,122,0.1);color:var(--green);border:1px solid rgba(34,208,122,0.2)}
+.brand-status.past{background:rgba(232,168,56,0.09);color:var(--gold);border:1px solid rgba(232,168,56,0.2)}
+.brands-cta{margin-top:2.5rem;border:1px solid var(--faint);border-radius:var(--r8);padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;background:rgba(232,168,56,0.03)}
+.brands-cta-text{font-size:0.93rem;color:var(--text2);max-width:500px;line-height:1.7}
+.brands-cta-text strong{color:var(--text);font-weight:600}
+
+/* RESULTS (case studies — file 3 layout) */
+#results{background:var(--black)}
+.results-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4rem;flex-wrap:wrap;gap:2rem}
+.results-grid{display:flex;flex-direction:column;background:var(--faint);gap:1px;border-radius:var(--r8);overflow:hidden}
+.result-card{background:var(--black);display:grid;grid-template-columns:1fr 300px;transition:background 0.3s}
+.result-card:hover{background:var(--s1)}
+.result-left{padding:3.5rem;border-right:1px solid var(--faint)}
+.result-tag{display:inline-flex;align-items:center;gap:6px;font-size:0.6rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(232,168,56,0.2);border-radius:var(--r);padding:0.28rem 0.7rem;margin-bottom:1.5rem;background:rgba(232,168,56,0.06)}
+.result-card h3{font-size:1.3rem;font-weight:900;color:var(--text);margin-bottom:0.8rem;line-height:1.25;letter-spacing:-0.025em}
+.result-card p{font-size:0.875rem;color:var(--text2);line-height:1.75;margin-bottom:1.5rem;max-width:500px}
+.result-tags{display:flex;gap:0.5rem;flex-wrap:wrap}
+.rtag{font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.22rem 0.65rem;border-radius:var(--rmax);border:1px solid var(--faint);color:var(--text3)}
+.result-right{display:flex;flex-direction:column}
+.result-metric{padding:1.4rem 2rem;border-bottom:1px solid var(--faint);display:flex;flex-direction:column;gap:3px;flex:1}
+.result-metric:last-child{border-bottom:none}
+.rm-num{font-size:2.2rem;font-weight:900;line-height:1;letter-spacing:-0.04em}
+.rm-num.pos{background:linear-gradient(135deg,var(--gold),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.rm-num.neg{color:var(--orange)}
+.rm-up{font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--green)}
+.rm-up.neg{color:var(--orange)}
+.rm-lbl{font-size:0.7rem;color:var(--text2)}
+
+/* ABOUT */
+#about{background:var(--s1)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start}
+.about-body{color:var(--text2);line-height:1.85;font-size:0.95rem;margin:1.5rem 0 2rem}
+.about-body p{margin-bottom:1.1rem}
+.about-body strong{color:var(--cream2);font-weight:600}
+.apills{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem}
+.apill{font-size:0.62rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:0.28rem 0.75rem;border:1px solid rgba(232,168,56,0.25);border-radius:var(--rmax);color:var(--gold);background:rgba(232,168,56,0.07)}
+.about-cards{display:flex;flex-direction:column;gap:1px;background:var(--faint);border-radius:var(--r8);overflow:hidden}
+.acard{background:var(--s1);padding:1.8rem 2rem;display:flex;gap:1.2rem;align-items:flex-start;transition:background 0.3s}
+.acard:hover{background:var(--s3)}
+.acard-icon{width:42px;height:42px;border-radius:var(--r);background:rgba(232,168,56,0.08);border:1px solid rgba(232,168,56,0.15);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.acard h3{font-size:0.9rem;font-weight:800;color:var(--text);margin-bottom:0.3rem}
+.acard p{font-size:0.82rem;color:var(--text2);line-height:1.65}
+.qblock{background:rgba(232,168,56,0.05);border:1px solid rgba(232,168,56,0.14);border-radius:var(--r);padding:1.8rem;margin-top:1px}
+.qblock blockquote{font-size:0.9rem;color:var(--text);line-height:1.8;font-style:italic;margin-bottom:0.6rem;border-left:2px solid var(--gold);padding-left:1rem}
+.qblock cite{font-size:0.62rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold)}
+
+/* SERVICES */
+#services{background:var(--black)}
+.stop{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3.5rem;flex-wrap:wrap;gap:2rem}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);background:var(--faint);gap:1px;border-radius:var(--r8);overflow:hidden}
+.sc{background:var(--black);padding:2.5rem;display:flex;flex-direction:column;transition:background 0.3s;position:relative;overflow:hidden;cursor:default}
+.sc::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--orange));transform:scaleX(0);transform-origin:left;transition:transform 0.4s}
+.sc:hover{background:var(--s1)}
+.sc:hover::after{transform:scaleX(1)}
+.sc-n{font-size:0.6rem;font-weight:800;letter-spacing:0.16em;color:var(--gold);opacity:0.6;margin-bottom:1.4rem}
+.sc-ico{width:44px;height:44px;border-radius:var(--r);background:rgba(232,168,56,0.07);border:1px solid rgba(232,168,56,0.12);display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:1.2rem}
+.sc h3{font-size:1rem;font-weight:800;color:var(--text);margin-bottom:0.7rem;line-height:1.3;letter-spacing:-0.01em}
+.sc p{font-size:0.83rem;color:var(--text2);line-height:1.7}
+.sc.sc-feat{background:rgba(232,168,56,0.04);border-top:2px solid rgba(232,168,56,0.4)}
+.sc.sc-feat::after{display:none}
+
+/* WHY US */
+#why{background:var(--s1)}
+.why-layout{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.bignm{font-size:clamp(8rem,18vw,16rem);font-weight:900;line-height:1;color:rgba(255,255,255,0.04);letter-spacing:-0.05em;user-select:none;margin-bottom:-2rem}
+.wlist{display:flex;flex-direction:column;gap:1px;background:var(--faint);border-radius:var(--r8);overflow:hidden}
+.wi{background:var(--s1);padding:1.5rem 2rem;display:grid;grid-template-columns:36px 1fr;gap:1rem;align-items:start;transition:background 0.3s}
+.wi:hover{background:var(--s3)}
+.wi-i{font-size:0.62rem;font-weight:900;color:var(--gold);letter-spacing:0.1em;padding-top:3px}
+.wi h3{font-size:0.88rem;font-weight:700;color:var(--text);margin-bottom:0.25rem}
+.wi p{font-size:0.8rem;color:var(--text2);line-height:1.6}
+
+/* PROCESS */
+#process{background:var(--black)}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);background:var(--faint);gap:1px;margin-top:4rem;border-radius:var(--r8);overflow:hidden}
+.pc{background:var(--black);padding:2.5rem 2rem;transition:background 0.3s;position:relative}
+.pc:hover{background:var(--s1)}
+.pc-n{font-size:clamp(3.5rem,6vw,5rem);font-weight:900;color:rgba(255,255,255,0.04);letter-spacing:-0.04em;line-height:1;margin-bottom:1.4rem;transition:color 0.3s}
+.pc:hover .pc-n{color:rgba(232,168,56,0.1)}
+.pc h3{font-size:0.95rem;font-weight:800;color:var(--text);margin-bottom:0.5rem}
+.pc p{font-size:0.82rem;color:var(--text2);line-height:1.65}
+
+/* TESTIMONIALS */
+#testimonials{background:var(--s1)}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;background:var(--faint);gap:1px;margin-top:3.5rem;border-radius:var(--r8);overflow:hidden}
+.tc{background:var(--s1);padding:2.8rem;transition:background 0.3s}
+.tc:hover{background:var(--s3)}
+.tstars{display:flex;gap:3px;margin-bottom:1.5rem}
+.tstars span{color:var(--gold);font-size:0.8rem}
+.tc blockquote{font-size:0.93rem;color:var(--text);line-height:1.85;font-style:italic;margin-bottom:2rem;border-left:2px solid rgba(232,168,56,0.35);padding-left:1.2rem}
+.tau{display:flex;align-items:center;gap:12px}
+.tav{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--orange));display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:900;color:#060608;flex-shrink:0}
+.tname{font-size:0.87rem;font-weight:800;color:var(--text)}
+.trole{font-size:0.72rem;color:var(--text2);margin-top:2px}
+
+/* CONTACT */
+#contact{background:var(--black)}
+.chero{position:relative;border:1px solid var(--faint);border-radius:var(--r12);padding:clamp(3rem,6vw,6rem);text-align:center;overflow:hidden;margin-bottom:2.5rem;background:var(--s1)}
+.chero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:800px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(232,168,56,0.1) 0%,transparent 70%);pointer-events:none}
+.chero h2{font-size:clamp(2.2rem,5vw,4rem);font-weight:900;letter-spacing:-0.04em;position:relative;z-index:1;margin-bottom:1rem}
+.chero p{font-size:1rem;color:var(--text2);max-width:460px;margin:0 auto 2.5rem;line-height:1.75;position:relative;z-index:1}
+.ctabtns{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;position:relative;z-index:1}
+.cig{display:grid;grid-template-columns:repeat(3,1fr);background:var(--faint);gap:1px;border-radius:var(--r8);overflow:hidden;margin-bottom:2.5rem}
+.cic{background:var(--s1);padding:1.8rem 2rem;display:flex;flex-direction:column;gap:5px;transition:background 0.3s}
+.cic:hover{background:var(--s3)}
+.cic-ico{font-size:1.3rem;margin-bottom:6px}
+.cic-lbl{font-size:0.6rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--text2)}
+.cic-val{font-size:0.95rem;font-weight:700;color:var(--text)}
+.cic-val a{color:var(--gold);text-decoration:none;transition:color 0.2s}
+.cic-val a:hover{color:var(--gold2)}
+.socstrip{display:flex;align-items:center;justify-content:center;gap:0.8rem;flex-wrap:wrap}
+.soc-lbl{font-size:0.6rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--text2);margin-right:4px}
+.socbtn{width:42px;height:42px;border-radius:var(--r);background:rgba(255,255,255,0.04);border:1px solid var(--faint);display:flex;align-items:center;justify-content:center;text-decoration:none;color:var(--text2);transition:all 0.25s}
+.socbtn:hover{border-color:rgba(232,168,56,0.35);color:var(--gold);transform:translateY(-3px)}
+.socbtn svg{width:16px;height:16px;fill:currentColor}
+
+/* FOOTER */
+footer{background:var(--s1);border-top:1px solid var(--faint);padding:4rem var(--g) 2rem;position:relative;z-index:1}
+.ftop{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.flogo{font-size:1.25rem;font-weight:900;color:var(--text);display:flex;align-items:center;gap:9px;margin-bottom:0.6rem;letter-spacing:-0.03em}
+.flogo-dot{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--orange));flex-shrink:0;box-shadow:0 0 10px rgba(232,168,56,0.5)}
+.ftagline{font-size:0.8rem;color:var(--text2);line-height:1.6;max-width:220px;margin-bottom:1.2rem}
+.fsocials{display:flex;gap:0.5rem;margin-top:0.5rem}
+.fsoc{width:32px;height:32px;border-radius:var(--r);background:rgba(255,255,255,0.04);border:1px solid var(--faint);display:flex;align-items:center;justify-content:center;text-decoration:none;color:var(--text2);transition:all 0.2s}
+.fsoc:hover{border-color:rgba(232,168,56,0.35);color:var(--gold)}
+.fsoc svg{width:12px;height:12px;fill:currentColor}
+.flg h4{font-size:0.6rem;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:var(--text2);margin-bottom:1.2rem}
+.flg ul{list-style:none;display:flex;flex-direction:column;gap:0.6rem}
+.flg a{font-size:0.82rem;color:var(--text2);text-decoration:none;transition:color 0.2s}
+.flg a:hover{color:var(--gold)}
+.fbot{border-top:1px solid var(--faint);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.fcopy{font-size:0.74rem;color:var(--text3)}
+.fleg{display:flex;gap:1.5rem}
+.fleg a{font-size:0.72rem;color:var(--text3);text-decoration:none;transition:color 0.2s}
+.fleg a:hover{color:var(--text)}
+
+/* FABS */
+.fabs{position:fixed;bottom:28px;right:28px;display:flex;flex-direction:column;gap:10px;align-items:flex-end;z-index:800}
+.fab{width:52px;height:52px;border-radius:var(--r8);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all 0.3s;box-shadow:0 8px 32px rgba(0,0,0,0.5);position:relative}
+.fab:hover{transform:scale(1.08) translateY(-3px)}
+.fab-wa{background:linear-gradient(135deg,#25D366,#128C7E)}
+.fab-call{background:linear-gradient(135deg,var(--gold),var(--orange))}
+.fab svg{width:22px;height:22px;fill:#fff}
+.fab-tip{position:absolute;right:62px;top:50%;transform:translateY(-50%);background:var(--s2);border:1px solid var(--faint);border-radius:var(--r);padding:0.3rem 0.75rem;font-size:0.72rem;font-weight:600;color:var(--text);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity 0.2s}
+.fab:hover .fab-tip{opacity:1}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .ftop{grid-template-columns:1fr 1fr}
+  .result-card{grid-template-columns:1fr}
+  .result-right{display:grid;grid-template-columns:repeat(3,1fr)}
+  .result-metric{border-bottom:none;border-right:1px solid var(--faint)}
+  .result-metric:last-child{border-right:none}
+}
+@media(max-width:900px){
+  .about-grid,.why-layout,.tgrid{grid-template-columns:1fr}
+  .sgrid{grid-template-columns:1fr 1fr}
+  .pgrid{grid-template-columns:1fr 1fr}
+  .stats-inner{grid-template-columns:1fr 1fr}
+  .stat:nth-child(2){border-right:none}
+  .brands-grid{grid-template-columns:repeat(3,1fr)}
+  .nl,.nav-ph{display:none}
+  .ham{display:flex}
+  .cig{grid-template-columns:1fr}
+  .ftop{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .sgrid,.pgrid{grid-template-columns:1fr}
+  .result-right{display:flex;flex-direction:column}
+  .result-metric{border-right:none;border-bottom:1px solid var(--faint)}
+  .stats-inner{grid-template-columns:1fr}
+  .stat{border-right:none;border-bottom:1px solid var(--faint)}
+  .brands-grid{grid-template-columns:repeat(2,1fr)}
+  .hbtns{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="cur2" id="cur2"></div>
+
+<div class="amb a"></div>
+<div class="amb b"></div>
+<div class="amb c"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#home" class="logo"><span class="logo-dot"></span>MegaMatrix</a>
+  <ul class="nl">
+    <li><a href="#brands">Partners</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nr">
+    <a href="tel:+918788301780" class="nav-ph">+91 87883 01780</a>
+    <a href="#contact" class="btn-nav">Get Started →</a>
+    <button class="ham" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<nav class="mmenu" id="mm">
+  <a href="#brands">Partners</a>
+  <a href="#results">Results</a>
+  <a href="#services">Services</a>
+  <a href="#about">About</a>
+  <a href="#contact" style="color:var(--gold)">Contact</a>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-bg">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-glow"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow rv"><span class="live-dot"></span>Mumbai's #1 eCommerce Growth Agency</div>
+    <h1 class="htitle rv d1">
+      We Turn<br>
+      <em>Data Into</em><br>
+      <span class="ghost">Sales.</span>
+    </h1>
+    <p class="hero-sub rv d2"><strong>End-to-end eCommerce growth</strong> across Amazon, Flipkart, Myntra & D2C — from listing to ranking to revenue that compounds month after month.</p>
+    <div class="hbtns rv d3">
+      <a href="#contact" class="btn-p">Start Growing Today <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="#results" class="btn-s">See Real Results <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></a>
+    </div>
+    <div class="pbadges rv d4">
+      <span class="plat-label">Active on</span>
+      <span class="plat-pill">Amazon.in</span>
+      <span class="plat-pill">Flipkart</span>
+      <span class="plat-pill">Myntra</span>
+      <span class="plat-pill">D2C</span>
+      <span class="plat-pill">Performance Marketing</span>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat"><span class="stat-num" data-target="10" data-suffix="+">10+</span><span class="stat-lbl">Years in eCommerce</span></div>
+    <div class="stat"><span class="stat-num" data-target="3" data-suffix="x">3x</span><span class="stat-lbl">Avg ROAS Improvement</span></div>
+    <div class="stat"><span class="stat-num" data-target="360" data-suffix="°">360°</span><span class="stat-lbl">Account Management</span></div>
+    <div class="stat"><span class="stat-num" data-target="100" data-suffix="%">100%</span><span class="stat-lbl">Data-Driven Execution</span></div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">Amazon SEO<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">PPC Management<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">Product Launch<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">Keyword Ranking<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">Competitor Analysis<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">Brand Development<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">Flipkart Growth<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">D2C Marketing<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">Listing Optimisation<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">Account Health<span class="ticker-sep"> ✦ </span></span>
+    <span class="ticker-item">Amazon SEO<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">PPC Management<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">Product Launch<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">Keyword Ranking<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">Competitor Analysis<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">Brand Development<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">Flipkart Growth<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">D2C Marketing<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">Listing Optimisation<span class="ticker-sep"> ✦ </span></span><span class="ticker-item">Account Health<span class="ticker-sep"> ✦ </span></span>
+  </div>
+</div>
+
+<!-- BRAND PARTNERS -->
+<section id="brands" class="sec">
+  <div class="brands-top rv">
+    <div>
+      <div class="slabel">Brand Partners</div>
+      <h2 class="sh">Brands That <span class="gt">Trust Us</span><br>to Win Their Market.</h2>
+    </div>
+    <p class="sdesc">Fashion, electronics, FMCG, beauty, lifestyle — across India's top marketplaces.</p>
+  </div>
+  <div class="brands-grid rv">
+    <div class="brand-cell"><div class="brand-ico">👗</div><div class="brand-name">FashionX India</div><div class="brand-cat">Fashion & Apparel</div><span class="brand-status active">Active</span></div>
+    <div class="brand-cell"><div class="brand-ico">🔌</div><div class="brand-name">TechGear Pro</div><div class="brand-cat">Electronics</div><span class="brand-status active">Active</span></div>
+    <div class="brand-cell"><div class="brand-ico">💄</div><div class="brand-name">GlowBeauty</div><div class="brand-cat">Beauty & Skincare</div><span class="brand-status active">Active</span></div>
+    <div class="brand-cell"><div class="brand-ico">🏠</div><div class="brand-name">HomeNest Living</div><div class="brand-cat">Home & Kitchen</div><span class="brand-status past">Alumni</span></div>
+    <div class="brand-cell"><div class="brand-ico">🏃</div><div class="brand-name">ActiveZone Sports</div><div class="brand-cat">Sports & Fitness</div><span class="brand-status active">Active</span></div>
+    <div class="brand-cell"><div class="brand-ico">🍃</div><div class="brand-name">PureNature FMCG</div><div class="brand-cat">Health & Nutrition</div><span class="brand-status past">Alumni</span></div>
+    <div class="brand-cell"><div class="brand-ico">👶</div><div class="brand-name">TinySteps Kids</div><div class="brand-cat">Baby & Kids</div><span class="brand-status active">Active</span></div>
+    <div class="brand-cell"><div class="brand-ico">📦</div><div class="brand-name">QuickCart B2B</div><div class="brand-cat">B2B & Wholesale</div><span class="brand-status past">Alumni</span></div>
+    <div class="brand-cell"><div class="brand-ico">🐾</div><div class="brand-name">PawsFirst Pets</div><div class="brand-cat">Pet Care</div><span class="brand-status active">Active</span></div>
+    <div class="brand-cell"><div class="brand-ico">✈️</div><div class="brand-name">JourneyLite</div><div class="brand-cat">Travel & Luggage</div><span class="brand-status past">Alumni</span></div>
+  </div>
+  <div class="brands-cta rv">
+    <p class="brands-cta-text"><strong>Want to see your brand here?</strong> We partner with ambitious brands ready to dominate their category on Amazon, Flipkart, Myntra and beyond.</p>
+    <a href="#contact" class="btn-p">Become a Partner →</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RESULTS / CASE STUDIES -->
+<section id="results" class="sec">
+  <div class="results-header rv">
+    <div>
+      <div class="slabel">Case Studies</div>
+      <h2 class="sh">Real Brands.<br><span class="gt">Real Numbers.</span></h2>
+    </div>
+    <p class="sdesc">No vanity metrics. No fluff. Just measurable growth that compounds.</p>
+  </div>
+  <div class="results-grid">
+    <div class="result-card rv">
+      <div class="result-left">
+        <span class="result-tag">✦ Fashion & Apparel</span>
+        <h3>From Zero Visibility to Category Leader on Amazon</h3>
+        <p>A Mumbai-based fashion brand struggling with poor keyword rankings and near-zero organic traffic. We rebuilt their entire listing strategy, ran precision PPC campaigns, and launched a keyword ranking sprint. Within 90 days, they owned the top 3 positions for their primary keywords.</p>
+        <div class="result-tags">
+          <span class="rtag">Amazon SEO</span><span class="rtag">PPC Ads</span><span class="rtag">Listing Optimisation</span><span class="rtag">Product Launch</span>
+        </div>
+      </div>
+      <div class="result-right">
+        <div class="result-metric"><span class="rm-num pos">4.8x</span><span class="rm-up">↑ ROAS Improvement</span><span class="rm-lbl">From 1.2x to 4.8x in 3 months</span></div>
+        <div class="result-metric"><span class="rm-num pos">48%</span><span class="rm-up">↑ Organic Sales Growth</span><span class="rm-lbl">Consistent month-over-month</span></div>
+        <div class="result-metric"><span class="rm-num neg">-68%</span><span class="rm-up neg">↓ ACoS Reduction</span><span class="rm-lbl">Ad cost dramatically reduced</span></div>
+      </div>
+    </div>
+    <div class="result-card rv d1">
+      <div class="result-left">
+        <span class="result-tag">✦ Health & Nutrition</span>
+        <h3>Scaling a Health Brand from ₹2L to ₹18L Monthly Revenue</h3>
+        <p>A health supplements brand with inconsistent sales and zero review strategy. We deployed full account management, competitor keyword targeting, and a structured launch sequence for 3 new SKUs. Revenue grew 9x in 5 months.</p>
+        <div class="result-tags">
+          <span class="rtag">Account Management</span><span class="rtag">Keyword Strategy</span><span class="rtag">Review Growth</span><span class="rtag">SKU Launch</span>
+        </div>
+      </div>
+      <div class="result-right">
+        <div class="result-metric"><span class="rm-num pos">9x</span><span class="rm-up">↑ Revenue Growth</span><span class="rm-lbl">₹2L → ₹18L per month</span></div>
+        <div class="result-metric"><span class="rm-num pos">53%</span><span class="rm-up">↑ Keyword Rankings</span><span class="rm-lbl">Top-3 across 40+ keywords</span></div>
+        <div class="result-metric"><span class="rm-num pos">3</span><span class="rm-up">↑ New SKUs Launched</span><span class="rm-lbl">All profitable within 60 days</span></div>
+      </div>
+    </div>
+    <div class="result-card rv d2">
+      <div class="result-left">
+        <span class="result-tag">✦ Home & Kitchen</span>
+        <h3>Turning a Seasonal Brand Into a Year-Round Seller</h3>
+        <p>A home décor brand with seasonal spikes needed consistent year-round revenue. We diversified keyword targeting, built a cross-platform strategy on Amazon and Flipkart, and identified untapped evergreen niches within their catalog.</p>
+        <div class="result-tags">
+          <span class="rtag">Cross-Platform</span><span class="rtag">Market Research</span><span class="rtag">Competitor Analysis</span><span class="rtag">Flipkart</span>
+        </div>
+      </div>
+      <div class="result-right">
+        <div class="result-metric"><span class="rm-num pos">22%</span><span class="rm-up">↑ Off-Season Revenue</span><span class="rm-lbl">Stable sales in low months</span></div>
+        <div class="result-metric"><span class="rm-num pos">2</span><span class="rm-up">↑ New Platforms</span><span class="rm-lbl">Amazon + Flipkart managed</span></div>
+        <div class="result-metric"><span class="rm-num neg">-45%</span><span class="rm-up neg">↓ Return Rate</span><span class="rm-lbl">Better listings, fewer returns</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about" class="sec">
+  <div class="about-grid">
+    <div class="rv">
+      <div class="slabel">About MegaMatrix</div>
+      <h2 class="sh">We Don't Manage Accounts —<br>We <span class="gt">Build Brands.</span></h2>
+      <div class="about-body">
+        <p>MegaMatrix is a <strong>Mumbai-based, performance-driven eCommerce growth partner</strong> helping brands scale across India's biggest digital marketplaces. We combine data, creativity, and technology to deliver real, measurable results.</p>
+        <p>From marketplace optimisation and performance marketing to brand positioning and customer acquisition — we focus on <strong>sustainable, long-term growth</strong> for every brand we work with.</p>
+        <p>At MegaMatrix, <strong>innovation meets execution.</strong> We turn marketplace data into clear actions — reducing waste, improving rankings, and building consistent sales growth that compounds over time.</p>
+      </div>
+      <div class="apills">
+        <span class="apill">Amazon.in</span><span class="apill">Flipkart</span><span class="apill">Myntra</span><span class="apill">Mumbai Based</span><span class="apill">Data-Driven</span>
+      </div>
+      <a href="#contact" class="btn-p" style="display:inline-flex">Partner With Us →</a>
+    </div>
+    <div class="rv d1">
+      <div class="about-cards">
+        <div class="acard"><div class="acard-icon">📊</div><div><h3>Data-Driven Optimisation</h3><p>Every decision backed by real marketplace data — reducing ad waste, boosting organic traffic, and maximising profitability.</p></div></div>
+        <div class="acard"><div class="acard-icon">🚀</div><div><h3>End-to-End Growth Partner</h3><p>From listing to scaling — higher visibility, better rankings, consistent sales without the operational stress.</p></div></div>
+        <div class="acard"><div class="acard-icon">🔬</div><div><h3>100% Transparent Reporting</h3><p>Real-time keyword tracking and weekly performance reports so you always know what's working.</p></div></div>
+      </div>
+      <div class="qblock">
+        <blockquote>"We don't just manage accounts — we build scalable digital systems that make your products dominate competitive marketplaces."</blockquote>
+        <cite>— MegaMatrix Team, Mumbai</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section id="services" class="sec">
+  <div class="stop rv">
+    <div>
+      <div class="slabel">What We Offer</div>
+      <h2 class="sh">Complete eCommerce<br><span class="gt">Growth Solutions</span></h2>
+    </div>
+    <a href="#contact" class="btn-s">Talk to an Expert →</a>
+  </div>
+  <div class="sgrid rv">
+    <div class="sc"><span class="sc-n">01 — ACCOUNT MANAGEMENT</span><div class="sc-ico">🏪</div><h3>Amazon Account Management</h3><p>Full A-to-Z management — catalog, inventory, order performance, account health, and compliance. Safe, stable, and continuously growing.</p></div>
+    <div class="sc"><span class="sc-n">02 — SEO & CONTENT</span><div class="sc-ico">🔍</div><h3>Product Listing SEO & Optimisation</h3><p>Titles, bullets, descriptions, backend terms, and images — all optimised with high-converting keywords for maximum discoverability.</p></div>
+    <div class="sc"><span class="sc-n">03 — KEYWORD STRATEGY</span><div class="sc-ico">📈</div><h3>Keyword Research & Ranking</h3><p>We find exactly what buyers search for and build a step-by-step plan to rank your products for consistent organic sales.</p></div>
+    <div class="sc"><span class="sc-n">04 — INTELLIGENCE</span><div class="sc-ico">🎯</div><h3>Competitor Analysis & Market Research</h3><p>Deep analysis of top competitors — pricing, keywords, and strategy — to identify every gap and opportunity to outperform them.</p></div>
+    <div class="sc"><span class="sc-n">05 — PAID ADS</span><div class="sc-ico">💰</div><h3>PPC Ads Management & Scaling</h3><p>Create, manage, and optimise Amazon Ads for maximum results — reducing ACoS, improving ROAS, and scaling your organic share.</p></div>
+    <div class="sc"><span class="sc-n">06 — LAUNCH</span><div class="sc-ico">🚀</div><h3>Product Launch & Growth Planning</h3><p>Complete launch strategies — keyword targeting, ranking push, ad setup, and review growth for maximum day-one visibility.</p></div>
+    <div class="sc"><span class="sc-n">07 — ANALYTICS</span><div class="sc-ico">📊</div><h3>Real-Time Tracking & Reporting</h3><p>Daily keyword tracking with transparent reports on visibility, ranking, and performance benchmarked against competitors.</p></div>
+    <div class="sc sc-feat"><span class="sc-n">08 — BRAND</span><div class="sc-ico">✦</div><h3>Strategic Brand Development</h3><p>Tailored long-term strategies for brand positioning, identity, customer acquisition, and D2C expansion beyond marketplaces.</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHY US -->
+<section id="why" class="sec">
+  <div class="why-layout">
+    <div class="rv">
+      <div class="slabel">Why MegaMatrix</div>
+      <h2 class="sh">The Difference That<br><span class="gt">Drives Results.</span></h2>
+      <p class="sdesc" style="margin-bottom:2.5rem">Over a decade of combined marketplace expertise. One mission — grow your brand faster than anyone else.</p>
+      <div class="bignm">06</div>
+      <a href="#contact" class="btn-p" style="display:inline-flex;margin-top:2.5rem">Partner With Us →</a>
+    </div>
+    <div class="wlist rv d1">
+      <div class="wi"><span class="wi-i">01</span><div><h3>Tailored Development Plans</h3><p>Every strategy is custom-built for your brand, category, and competitive landscape — never a template.</p></div></div>
+      <div class="wi"><span class="wi-i">02</span><div><h3>Data-Driven Decisions</h3><p>Every move backed by real marketplace data — reducing waste, boosting organic traffic, maximising margins.</p></div></div>
+      <div class="wi"><span class="wi-i">03</span><div><h3>100% Transparent Reporting</h3><p>Real-time tracking and weekly reports. You always know exactly what's working and what's next.</p></div></div>
+      <div class="wi"><span class="wi-i">04</span><div><h3>Continuous Ongoing Support</h3><p>Not set-and-forget. Ongoing optimisation, proactive support, and strategy refinement to keep you ahead.</p></div></div>
+      <div class="wi"><span class="wi-i">05</span><div><h3>Mumbai Marketplace Experts</h3><p>Deep knowledge of Indian eCommerce — Amazon.in, Flipkart, Myntra, and emerging D2C channels.</p></div></div>
+      <div class="wi"><span class="wi-i">06</span><div><h3>Full Ecosystem Management</h3><p>Listings, PPC, brand strategy, D2C — all under one roof, fully integrated for maximum impact.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROCESS -->
+<section id="process" class="sec">
+  <div class="rv">
+    <div class="slabel">How We Work</div>
+    <h2 class="sh">Our 4-Step Process to<br><span class="gt">Scale Your Brand</span></h2>
+  </div>
+  <div class="pgrid rv">
+    <div class="pc"><div class="pc-n">01</div><h3>Audit & Discovery</h3><p>We deep-dive your listings, ad spend, keyword rankings, and competitor landscape to identify every growth opportunity.</p></div>
+    <div class="pc"><div class="pc-n">02</div><h3>Strategy & Planning</h3><p>A fully customised roadmap — keyword strategy, content plan, PPC structure, and launch calendar tailored to your brand.</p></div>
+    <div class="pc"><div class="pc-n">03</div><h3>Execute & Optimise</h3><p>We execute with precision — optimising listings, running ads, tracking rankings, and adjusting strategy in real time.</p></div>
+    <div class="pc"><div class="pc-n">04</div><h3>Report & Scale</h3><p>Weekly transparent reports showing exactly what's working — then we double down on winning and scale your results.</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="sec">
+  <div class="rv">
+    <div class="slabel">Client Success</div>
+    <h2 class="sh">Brands That <span class="gt">Trust MegaMatrix.</span></h2>
+  </div>
+  <div class="tgrid">
+    <div class="tc rv">
+      <div class="tstars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <blockquote>"Partnering with MegaMatrix was a game-changer. They expertly enhanced our digital strategy, leading to remarkable growth in brand visibility and sales. Their proactive and creative team made the entire experience seamless and successful."</blockquote>
+      <div class="tau"><div class="tav">AN</div><div><div class="tname">Anjali Nair</div><div class="trole">Brand Owner, Amazon Seller</div></div></div>
+    </div>
+    <div class="tc rv d1">
+      <div class="tstars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <blockquote>"MegaMatrix transformed our brand's online presence beyond expectations. Their insights into market trends and strategies for sustainable growth were invaluable. Our sales have significantly increased — highly recommended."</blockquote>
+      <div class="tau"><div class="tav">RM</div><div><div class="tname">Rohit Mehta</div><div class="trole">eCommerce Seller, Flipkart</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="sec">
+  <div class="chero rv">
+    <div class="slabel" style="justify-content:center">Let's Work Together</div>
+    <h2><span class="gt">Ready to Amplify Your</span><br>Brand's Presence?</h2>
+    <p>Partner with MegaMatrix and transform your digital journey into real, measurable business growth across India's biggest platforms.</p>
+    <div class="ctabtns">
+      <a href="mailto:Sales.Megamatrix@gmail.com" class="btn-p">Email Us Now <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg></a>
+      <a href="https://wa.me/918788301780" class="btn-s" target="_blank">💬 WhatsApp Us</a>
+      <a href="tel:+918788301780" class="btn-s">📞 +91 87883 01780</a>
+    </div>
+  </div>
+  <div class="cig rv">
+    <div class="cic"><span class="cic-ico">📞</span><span class="cic-lbl">Phone</span><span class="cic-val"><a href="tel:+918788301780">+91 87883 01780</a></span></div>
+    <div class="cic"><span class="cic-ico">✉️</span><span class="cic-lbl">Email</span><span class="cic-val"><a href="mailto:Sales.Megamatrix@gmail.com">Sales.Megamatrix@gmail.com</a></span></div>
+    <div class="cic"><span class="cic-ico">📍</span><span class="cic-lbl">Location</span><span class="cic-val">Mumbai, Maharashtra, India</span></div>
+  </div>
+  <div class="socstrip rv">
+    <span class="soc-lbl">Follow Us</span>
+    <a href="#" class="socbtn" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    <a href="#" class="socbtn" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+    <a href="#" class="socbtn" aria-label="Twitter / X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    <a href="#" class="socbtn" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <a href="https://wa.me/918788301780" class="socbtn" aria-label="WhatsApp" style="border-color:rgba(37,211,102,0.25)" target="_blank"><svg viewBox="0 0 24 24" style="fill:#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ftop">
+    <div>
+      <div class="flogo"><span class="flogo-dot"></span>MegaMatrix</div>
+      <p class="ftagline">Mumbai's performance-driven eCommerce growth agency. Where data turns into sales.</p>
+      <div class="fsocials">
+        <a href="#" class="fsoc" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+        <a href="#" class="fsoc" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <a href="https://wa.me/918788301780" class="fsoc" aria-label="WhatsApp" target="_blank"><svg viewBox="0 0 24 24" style="fill:#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+      </div>
+    </div>
+    <div class="flg"><h4>Navigation</h4><ul><li><a href="#home">Home</a></li><li><a href="#brands">Brand Partners</a></li><li><a href="#results">Case Studies</a></li><li><a href="#services">Services</a></li><li><a href="#about">About</a></li><li><a href="#process">Process</a></li></ul></div>
+    <div class="flg"><h4>Services</h4><ul><li><a href="#services">Amazon Management</a></li><li><a href="#services">Listing SEO</a></li><li><a href="#services">PPC Ads</a></li><li><a href="#services">Product Launch</a></li><li><a href="#services">Brand Development</a></li></ul></div>
+    <div class="flg"><h4>Get In Touch</h4><ul><li><a href="tel:+918788301780">+91 87883 01780</a></li><li><a href="mailto:Sales.Megamatrix@gmail.com">Sales.Megamatrix@gmail.com</a></li><li><a href="#">Mumbai, India</a></li><li><a href="https://wa.me/918788301780" target="_blank">WhatsApp Us</a></li></ul></div>
+  </div>
+  <div class="fbot">
+    <span class="fcopy">© 2025 MegaMatrix Ecommerce Agency. All rights reserved. Mumbai, India.</span>
+    <div class="fleg"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+  </div>
+</footer>
+
+<!-- FLOATING BUTTONS -->
+<div class="fabs">
+  <a href="https://wa.me/918788301780" class="fab fab-wa" target="_blank" aria-label="WhatsApp">
+    <div class="fab-tip">Chat on WhatsApp</div>
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+  <a href="tel:+918788301780" class="fab fab-call" aria-label="Call Us">
+    <div class="fab-tip">Call Us Now</div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="#070707" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="fill:none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.69 12 19.79 19.79 0 011.61 3.18 2 2 0 013.6 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 8.6a16 16 0 006 6l.92-.96a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0121.72 16z"/></svg>
+  </a>
+</div>
+
+<script>
+// Custom cursor (from file 3)
+const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+let mx=window.innerWidth/2,my=window.innerHeight/2,cx=mx,cy=my;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function animCur(){cx+=(mx-cx)*0.12;cy+=(my-cy)*0.12;cur2.style.left=cx+'px';cur2.style.top=cy+'px';requestAnimationFrame(animCur)})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur2.style.transform='translate(-50%,-50%) scale(2)';cur2.style.borderColor='rgba(232,168,56,0.7)'});
+  el.addEventListener('mouseleave',()=>{cur2.style.transform='translate(-50%,-50%) scale(1)';cur2.style.borderColor='rgba(232,168,56,0.4)'});
+});
+
+// Nav scroll
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('s',scrollY>50),{passive:true});
+
+// Hamburger
+const ham=document.getElementById('ham'),mm=document.getElementById('mm');
+ham.addEventListener('click',()=>{ham.classList.toggle('o');mm.classList.toggle('o')});
+document.querySelectorAll('.mmenu a').forEach(a=>a.addEventListener('click',()=>{ham.classList.remove('o');mm.classList.remove('o')}));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();scrollTo({top:t.offsetTop-76,behavior:'smooth'})}}));
+
+// Scroll reveal
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}}),{threshold:0.07,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.rv').forEach(r=>obs.observe(r));
+
+// Animated counters
+function animateNum(el,target,suffix){
+  let start=null;const dur=1800;
+  const step=ts=>{if(!start)start=ts;const p=Math.min((ts-start)/dur,1);const ease=1-Math.pow(1-p,3);el.textContent=Math.floor(ease*target)+suffix;if(p<1)requestAnimationFrame(step)};
+  requestAnimationFrame(step);
+}
+const statObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const el=e.target;animateNum(el,parseInt(el.dataset.target),el.dataset.suffix);statObs.unobserve(el)}}),{threshold:0.5});
+document.querySelectorAll('.stat-num[data-target]').forEach(el=>statObs.observe(el));
+</script>
+</body>
+</html>
